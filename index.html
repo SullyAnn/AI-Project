@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+</head>
+<body>
+    <canvas id="backgroundCanvas" width="1400" height="900"></canvas>
+    <div id="gameOfLife">
+        <canvas id="canvas2" width="2400" height="400" ></canvas>
+    </div>
+    <div id="boids">
+        <canvas id="canvas3" width="400" height="400" ></canvas>
+    </div>
+
+</body>
+</html>
+<script src="./script.js" type="module"></script>
+<script src="./elements.js" type="module"></script>
+<script src="./mathFunction.js" type="module"></script>
+<script type="module">
+    import {xPositon} from "./script.js"
+    import {getRandomFloat} from "./mathFunction.js"
+
+let backgroundImage = new Image();
+backgroundImage.src ="./assets/bg-image.webp"
+let pattern = new Image();
+pattern.src="./assets/pattern.png"
+
+    // DRAW GAME OF LIFE
+
+class Cell
+{
+    static width = 4;
+    static height = 4;
+
+    constructor (context, gridX, gridY, value)
+    {
+        this.context = context;
+
+        // Store the position of this cell in the grid
+        this.gridX = gridX;
+        this.gridY = gridY;
+
+        // Make random cells alive
+        //this.alive = Math.random() > 0.5;
+        // si oattern. couleur  ==  noir alors alive
+        /*if(pattern.)
+        this.alive */
+        if(value === 1 ) this.alive = true; 
+        else this.alive = false;
+    }
+
+    draw(randomOpacity) {
+        // Draw a simple square
+        this.context.fillStyle = this.alive?`rgba(225,219,213,${randomOpacity})`:'rgba(0,0,0,0)';
+        this.context.fillRect(this.gridX * Cell.width, this.gridY * Cell.height, Cell.width, Cell.height);
+    }
+}
+
+class GameWorld {
+
+    static numColumns = 700;
+    static numRows = 100;
+
+    constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        this.context = this.canvas.getContext('2d');
+        this.gameObjects = [];
+
+        this.createGrid();
+
+        // Request an animation frame for the first time
+        // The gameLoop() function will be called as a callback of this request
+        window.requestAnimationFrame(() => this.gameLoop());
+    }
+
+    createGrid()
+    {
+        //chargement image 600/70
+        this.context.drawImage(pattern, 0, 0)
+       
+        /// transofmr img en pixel
+
+        for (let y = 0; y < GameWorld.numRows; y++) {
+            for (let x = 0; x < GameWorld.numColumns; x++) {
+
+                let myPixel = this.context.getImageData(x, y, 1, 1)
+                let value = myPixel.data[3];
+                if(value <= 125) value = 0;
+                else value = 1;
+                this.gameObjects.push(new Cell(this.context, x, y, value));
+            }
+        }
+    }
+
+    isAlive(x, y)
+    {
+        if (x < 0 || x >= GameWorld.numColumns || y < 0 || y >= GameWorld.numRows){
+            return false;
+        }
+
+        return this.gameObjects[this.gridToIndex(x, y)].alive?1:0;
+    }
+
+    gridToIndex(x, y){
+        return x + (y * GameWorld.numColumns);
+    }
+
+    checkSurrounding ()
+    {
+        // Loop over all cells
+        for (let x = 0; x < GameWorld.numColumns; x++) {
+            for (let y = 0; y < GameWorld.numRows; y++) {
+
+                // Count the nearby population
+                let numAlive = this.isAlive(x - 1, y - 1) + this.isAlive(x, y - 1) + this.isAlive(x + 1, y - 1) + this.isAlive(x - 1, y) + this.isAlive(x + 1, y) + this.isAlive(x - 1, y + 1) + this.isAlive(x, y + 1) + this.isAlive(x + 1, y + 1);
+                let centerIndex = this.gridToIndex(x, y);
+
+                if (numAlive == 2){
+                    // Do nothing
+                    this.gameObjects[centerIndex].nextAlive = this.gameObjects[centerIndex].alive;
+                }else if (numAlive == 3){
+                    // Make alive
+                    this.gameObjects[centerIndex].nextAlive = true;
+                }else{
+                    // Make dead
+                    this.gameObjects[centerIndex].nextAlive = false;
+                }
+            }
+        }
+
+        // Apply the new state to the cells
+        for (let i = 0; i < this.gameObjects.length; i++) {
+            this.gameObjects[i].alive = this.gameObjects[i].nextAlive;
+        }
+    }
+
+    gameLoop() {
+        // Check the surrounding of each cell
+        this.checkSurrounding();
+
+        // Clear the screen
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.drawImage(backgroundImage, 0, (-this.canvas.height/3-238), backgroundImage.width*1.25, backgroundImage.height*1.25);
+
+        // Draw all the gameobjects
+        for (let i = 0; i < this.gameObjects.length; i++) {
+           
+            this.gameObjects[i].draw( getRandomFloat(0.20, 0.75, 1));
+        }
+
+        // The loop function has reached it's end, keep requesting new frames
+        setTimeout( () => {
+            window.requestAnimationFrame(() => this.gameLoop());
+        }, 10)
+    }
+}
+
+window.onload = () => {
+  // The page has loaded, start the game
+  let gameWorld = new GameWorld('canvas2');
+}
+
+
+</script>
+
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 1400px;
+        
+    }
+    #elementCanvas{
+        position: absolute;
+        z-index: -1;
+        width: 1400px;
+        height: 900px;
+    }
+    #gameOfLife{
+        position: absolute;
+        top: 0;
+        overflow-x: hidden;
+        width: 1400px;
+    }
+    #boids{
+        position: absolute;
+        bottom: 100px;
+        left: 0;
+        overflow-x: hidden;
+        width: 400px;
+        height: 400px;
+        overflow: hidden;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+</style>
+
