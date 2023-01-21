@@ -56,7 +56,6 @@ function Boid(x,y) {
   } else {
 
     let avgPos = { x: 0, y: 0 };
-   // let avgVel = { x: 0, y: 0 };
     let count = 0;
     for (let i = 0; i < boids.length; i++) {
       const other = boids[i];
@@ -65,8 +64,6 @@ function Boid(x,y) {
         if (distance < 100) {
           avgPos.x += other.position.x;
           avgPos.y += other.position.y;
-          // avgVel.x += other.velocity.x;
-          // avgVel.y += other.velocity.y;
           count++;
         }
       }
@@ -74,9 +71,7 @@ function Boid(x,y) {
     if (count > 0) {
       avgPos.x /= count;
       avgPos.y /= count;
-      // avgVel.x /= count*2;
-      // avgVel.y /= count*2;
-  
+
       // Steer towards the average position of nearby boids (cohesion)
       this.acceleration.x = (avgPos.x - this.position.x) * 0.01;
       this.acceleration.y = (avgPos.y - this.position.y) * 0.01;
@@ -85,9 +80,18 @@ function Boid(x,y) {
       // this.acceleration.x += (avgVel.x - this.velocity.x)*0.01 ;
       // this.acceleration.y += (avgVel.y - this.velocity.y)*0.01;
     }}
-  
+    var speed = Math.sqrt(this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y);
+    var maxSpeed = 2;
+    if(speed > maxSpeed) {
+        this.velocity.x = this.velocity.x / speed * maxSpeed;
+        this.velocity.y = this.velocity.y / speed * maxSpeed;
+    } else { 
+
     this.velocity.x += this.acceleration.x*0.05;
     this.velocity.y += this.acceleration.y*0.05;
+    }
+  
+    
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
   
