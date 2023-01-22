@@ -49,7 +49,7 @@ function Boid(x,y) {
   this.update = function() {
     // Calculate the average position of nearby boids
      // Check if the boid is outside the canvas boundaries
-  if (this.position.x < 0 || this.position.x > 400 || this.position.y < 0 || this.position.y > 400) {
+  if (this.position.x < 70 || this.position.x > 330 || this.position.y < 70 || this.position.y > 330) {
     // If the boid is outside the boundaries, apply a correction to steer it back towards the center of the canvas
     this.acceleration.x = (100 - this.position.x) * 0.01;
     this.acceleration.y = (100 - this.position.y) * 0.01;
