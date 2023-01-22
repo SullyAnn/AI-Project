@@ -14,7 +14,7 @@ const target = ["250", "255", "255"];
 const canvas = document.getElementById('canvas4');
    const ctx = canvas.getContext('2d');
   // const flies = [];
-  const populationSize = 100;
+  const populationSize = 10;
   const mutationRate = 0.01;
   const genNumber = 50;
   let YCoordinate = 0;
@@ -90,24 +90,24 @@ const canvas = document.getElementById('canvas4');
     }
   
   
-    updater = function(snowflake) {
+    updater = function() {
     //  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
     
-    console.log("0", snowflake)
-    snowflake.forEach((snow)=>{
-      const current = new Fly(target)
-      current.color = snow.color
-      current.position = snow.position
-      current.fitness() = snow.fitness()
-      console.log(current)
-    })
-    //   /
+    // console.log("0", snowflake)
+    // snowflake.forEach((snow)=>{
+    //   const current = new Fly(target)
+    //   current.color = snow.color
+    //   current.position = snow.position
+    //   current.fitness() = snow.fitness()
+    //   console.log(current)
+    // })
+    // //   /
     //   //console.log("0", snowflake)
     //   //snowflake.position?.x += snowflake.vx;
-    //   snowflake.position.y += 10;
-    // drawCircle(snowflake.color[0],snowflake.color[1], snowflake.color[2], snowflake.position.x, snowflake.position.y)
+    this.position.y += 10;
+   drawCircle(this.color[0],this.color[1], this.color[2], this.position.x, this.position.y)
       
       // // if snowflake goes off the bottom of the screen, reset it
       // if (this.position.y > canvas.height) {
@@ -116,30 +116,30 @@ const canvas = document.getElementById('canvas4');
     }
   }
 
-  function updater(snowflake) {
-    //  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // function updater(snowflake) {
+  //   //  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      console.log("0", snowflake)
-      snowflake.forEach((snow)=>{
-        const current = new Fly(target)
-        current.color = snow.color
-        current.position = snow.position
-        current.fitness() = snow.fitness()
-        console.log(current)
-      })
-        // console.log(snowflake.color)
-        // YCoordinate
-        // drawCircle(snowflake?.color[0],snowflake?.color[1], snowflake?.color[2], snowflake.position.x,YCoordinate)
+  //     console.log("0", snowflake)
+  //     snowflake.forEach((snow)=>{
+  //       const current = new Fly(target)
+  //       current.color = snow.color
+  //       current.position = snow.position
+  //       current.fitness() = snow.fitness()
+  //       console.log(current)
+  //     })
+  //       // console.log(snowflake.color)
+  //       // YCoordinate
+  //       // drawCircle(snowflake?.color[0],snowflake?.color[1], snowflake?.color[2], snowflake.position.x,YCoordinate)
      
-      //snowflake.position?.x += snowflake.vx;
-    //   snowflake.position.y += 10;
-    // drawCircle(snowflake.color[0],snowflake.color[1], snowflake.color[2], snowflake.position.x, snowflake.position.y)
+  //     //snowflake.position?.x += snowflake.vx;
+  //   //   snowflake.position.y += 10;
+  //   // drawCircle(snowflake.color[0],snowflake.color[1], snowflake.color[2], snowflake.position.x, snowflake.position.y)
       
-      // // if snowflake goes off the bottom of the screen, reset it
-      // if (this.position.y > canvas.height) {
-      //   this.reset();
-      // }
-    }
+  //     // // if snowflake goes off the bottom of the screen, reset it
+  //     // if (this.position.y > canvas.height) {
+  //     //   this.reset();
+  //     // }
+  //   }
 
   class Population{
     constructor(size, target, mutationRate){
@@ -195,13 +195,13 @@ const canvas = document.getElementById('canvas4');
       setTimeout(() => {
 
         YCoordinate += 0.25;
+
         drawCircle(child?.color[0],child?.color[1], child?.color[2], child?.position.x, YCoordinate)
         snowflakes.push(child);
 
        }, 1000)
-
+    member = child;
      child?.mutate(this.mutationRate);
-     member = child;
 
     })
     
@@ -216,8 +216,8 @@ function drawCircle(Red, Green, Blue, X, Y){
   ctx.beginPath();
   ctx.arc(X, Y, R, 0, 2 * Math.PI, false);
   ctx.lineWidth = 3;
-  ctx.filter ='blur(5px)';
-  ctx.fillStyle = `rgba(${Red},${Green},${Blue}, ${0.15})`;
+  ctx.filter ='blur(1px)';
+  ctx.fillStyle = `rgba(${Red},${Green},${Blue}, ${0.5})`;
   ctx.fill();
 
   
@@ -230,18 +230,15 @@ function drawCircle(Red, Green, Blue, X, Y){
   
     // Creation de la population et évolution sur un nombre donné de génération
     const population = new Population(populationSize, target, mutationRate);
-    population.evolve(generations);
-    setTimeout(() => {
-    console.log(snowflakes[0].updater(snowflakes[0]))
-      
-    }, 2000);
-    
+    population.evolve(generations);    
+
   }
 
   // Dessiner un canva
   //ctx.clearRect(0,0,canvas.width, canvas.height);
 
   generate(populationSize, target ,mutationRate, genNumber );
+
 
   //console.log(generate(populationSize, target ,mutationRate, genNumber))
   //console.log(new Population(10, target, 0.05))
@@ -252,24 +249,26 @@ function drawCircle(Red, Green, Blue, X, Y){
     // clear canvas
 console.log(snowflakes)
     // update and draw snowflakes
-  /*  setTimeout(() => {
+   /*setInterval(() => {
       for (var i = 0; i < snowflakes.length; i++) {
         let snowflake = snowflakes[i];
-        console.log(snowflakes)
+       // console.log(snowflakes)
   
-        snowflake[i]?.update();
+        snowflake[i]?.updater();
   
         //snowflake[i]?.draw();
       }
-    }, "5000");
-    */
+    }, "500");*/
+  
    
   
 
     // request another animation frame
-   // requestAnimationFrame(animate);
+   //requestAnimationFrame(animate);
   }
 
   // start animation
+  //ctx.clearRect(0,0,canvas.width, canvas.height);
+
   animate();
 
