@@ -32,29 +32,26 @@ ctx.stroke();
 
 //BOIDS 
 
-//Creation of the objet boid
-  const canvas = document.getElementById('canvas3');
+const canvas = document.getElementById('canvas3');
   const ctx = canvas.getContext('2d');
   const boids = [];
   const numberOfBoids = 20;
-//const ctx = canvas.getContext('2d');
 
+// class boids
 function Boid(x,y) {
   this.position = {x: x, y: y};
   this.velocity = {x: getRandomFloat(0, 1, 1) * 2 - 1, y: getRandomFloat(0, 1, 1) * 2 - 1 };
   this.acceleration = { x: 0, y: 0};
 
- 
-
   this.update = function() {
-    // Calculate the average position of nearby boids
-     // Check if the boid is outside the canvas boundaries
-  if (this.position.x < 0 || this.position.x > 400 || this.position.y < 0 || this.position.y > 400) {
+    // Check if the boid is outside the canvas boundaries
+  if (this.position.x < 50 || this.position.x > 350 || this.position.y < 50 || this.position.y > 350) {
     // If the boid is outside the boundaries, apply a correction to steer it back towards the center of the canvas
     this.acceleration.x = (100 - this.position.x) * 0.01;
     this.acceleration.y = (100 - this.position.y) * 0.01;
   } else {
 
+    // Calculate the average position of nearby boids
     let avgPos = { x: 0, y: 0 };
     let count = 0;
     for (let i = 0; i < boids.length; i++) {
@@ -68,40 +65,35 @@ function Boid(x,y) {
         }
       }
     }
+    
     if (count > 0) {
       avgPos.x /= count;
       avgPos.y /= count;
-
-      // Steer towards the average position of nearby boids (cohesion)
+      // Create cohesion by steering toward the average positon
       this.acceleration.x = (avgPos.x - this.position.x) * 0.01;
       this.acceleration.y = (avgPos.y - this.position.y) * 0.01;
-  
-      // Match the average velocity of nearby boids (alignment)
-      // this.acceleration.x += (avgVel.x - this.velocity.x)*0.01 ;
-      // this.acceleration.y += (avgVel.y - this.velocity.y)*0.01;
     }}
-    var speed = Math.sqrt(this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y);
-    var maxSpeed = 2;
+
+    //Create a max speed so the boids are not too fast
+    let speed = Math.sqrt(this.velocity.x * this.velocity.x + this.velocity.y * this.velocity.y);
+    let maxSpeed = 2;
     if(speed > maxSpeed) {
         this.velocity.x = this.velocity.x / speed * maxSpeed;
         this.velocity.y = this.velocity.y / speed * maxSpeed;
     } else { 
-
     this.velocity.x += this.acceleration.x*0.05;
     this.velocity.y += this.acceleration.y*0.05;
     }
   
     
     this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
-  
+    this.position.y += this.velocity.y; 
   }
 }
 
 for(let i = 0; i < numberOfBoids; i++ ){
   boids.push(new Boid(randomIntFromInterval(100, canvas.width-100), randomIntFromInterval(100, canvas.height-100)));
 }
-const rand = randomIntFromInterval(1, 3);
 
 
 function drawBoids() {
