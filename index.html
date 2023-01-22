@@ -16,12 +16,16 @@
     <div id="boids">
         <canvas id="canvas3" width="400" height="400" ></canvas>
     </div>
+    <div id="words">
+        <canvas id="canvas4" width="2400" height="900" ></canvas>
+    </div>
 
 </body>
 </html>
 <script src="./script.js" type="module"></script>
 <script src="./elements.js" type="module"></script>
 <script src="./mathFunction.js" type="module"></script>
+<script src="./letter.js" type="module"></script>
 <script type="module">
     import {xPositon} from "./script.js"
     import {getRandomFloat} from "./mathFunction.js"
@@ -200,6 +204,12 @@ window.onload = () => {
         display: flex;
     justify-content: center;
     align-items: center;
+    }
+    #words{
+        position: absolute;
+        top: 0;
+        overflow-x: hidden;
+        width: 1400px;
     }
 </style>
 

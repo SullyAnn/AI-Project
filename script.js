@@ -5,6 +5,7 @@ import { randomIntFromInterval } from "./mathFunction.js";
 const backgroundCanvas = document.getElementById('backgroundCanvas');
 const boidsDiv = document.getElementById('boids');
 const gameOfLifeCanvas = document.getElementById("gameOfLife");
+const wordCanvas = document.getElementById("words");
 const ctx = backgroundCanvas.getContext('2d');
 export let xPositon = 0;
 let witchXPosition = 50;
@@ -53,6 +54,7 @@ function checKey(e){
             drawTree(ctx, treeXPositions[i]+=5,depthRatios[i], angleRatios[i])
         }
         gameOfLifeCanvas.scrollLeft -= 5;
+        wordCanvas.scrollLeft -= 5;
        
         boidsDiv.style.left = `${boidsPos-=10}px`
         ctx.drawImage(witch, witchXPosition-=10, backgroundCanvas.height-400, witch.width/1.5, witch.height/1.5);
@@ -65,6 +67,7 @@ function checKey(e){
             drawTree(ctx, treeXPositions[i]-=5, depthRatios[i], angleRatios[i])
         }
         gameOfLifeCanvas.scrollLeft +=5;
+        wordCanvas.scrollLeft +=5;
         boidsDiv.style.left = `${boidsPos+=10}px`
 
         ctx.drawImage(witchTranslated,witchXPosition+=10, backgroundCanvas.height-400, witch.width/1.5, witch.height/1.5);
