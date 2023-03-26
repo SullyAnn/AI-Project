@@ -44,8 +44,6 @@ function Boid(x,y) {
   this.velocity = {x: getRandomFloat(0, 1, 1) * 2 - 1, y: getRandomFloat(0, 1, 1) * 2 - 1 };
   this.acceleration = { x: 0, y: 0};
 
- 
-
   this.update = function() {
     // Calculate the average position of nearby boids
      // Check if the boid is outside the canvas boundaries

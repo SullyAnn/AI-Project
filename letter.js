@@ -4,7 +4,7 @@ import { getRandomFloat } from "./mathFunction.js";
 //Creation of the objet boid
   const canvas = document.getElementById('canvas4');
   const ctx = canvas.getContext('2d');
-  const flou = 1;
+  let flou = 1;
  
 // Src: MDN
 function random(min, max) {
@@ -119,17 +119,16 @@ class Population {
   }
 
   evolve(generations) {
-    //for (let i = 0; i < generations; i += 1) {
-      setInterval(() => {
-  ctx.clearRect(0,0, canvas.width, canvas.height);
+    for (let i = 0; i < generations; i += 1) {
 
+      //evolve every 2 second 
+      setInterval(() => {
+        ctx.clearRect(0,0, canvas.width, canvas.height);
         const pool = this._selectMembersForMating();
-     // console.log(generations)
-      this._reproduce(pool);
+        this._reproduce(pool);
+      }, 2000);
       
-      }, 5000);
-      
-   // }
+   }
   }
 }
 
@@ -220,21 +219,11 @@ function drawWords(word){
 
 
   }
-  const fullWord = word.keys[0]+word.keys[1]+word.keys[2]
+  const fullWord = word.keys[0]+word.keys[1]+word.keys[2]+word.keys[3]
   ctx.fillStyle = 'rgba(255,255,255,0.5)';
- // ctx.filter = 'blur(1px)';
-  setInterval(() => {
-    flou+=0.1
-  }, 500);
   ctx.filter = `blur(${flou}px)`
 
   ctx.fillText(fullWord, randomIntFromInterval(0, canvas.width), randomIntFromInterval(550, canvas.height-150) )
-
-  //ctx.fillText(fullWord, randomIntFromInterval(0, canvas.width), randomIntFromInterval(550, canvas.height-150) )
-  //const fullWord = word.keys[0]+word.keys[1]+word.keys[2]
-  //ctx.fillText(fullWord, randomIntFromInterval(0, canvas.width), randomIntFromInterval(0, canvas.height) )
-  //ctx.fillText("ᚠ", 100, 100);
- // console.log(fullWord)
 }
 
 function generate(populationSize, target, mutationRate, generations) {
@@ -250,4 +239,4 @@ function generate(populationSize, target, mutationRate, generations) {
   console.log(membersKeys);
   console.log(`${perfectCandidatesNum ? perfectCandidatesNum.length : 0} member(s) typed "${target}"`);
 }
-generate(20, 'hit', 0.05, 5);
+generate(20, 'help', 0.05, 5);

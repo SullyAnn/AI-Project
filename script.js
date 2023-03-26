@@ -6,11 +6,12 @@ const backgroundCanvas = document.getElementById('backgroundCanvas');
 const boidsDiv = document.getElementById('boids');
 const gameOfLifeCanvas = document.getElementById("gameOfLife");
 const wordCanvas = document.getElementById("words");
+const orbCanvas = document.getElementById("orb");
 const ctx = backgroundCanvas.getContext('2d');
 export let xPositon = 0;
 let witchXPosition = 50;
 let numberOfTrees = 20;
-let boidsPos = 0;
+let boidsPos = 260;
 let treeXPositions = []; 
 let depthRatios = []; 
 let angleRatios = [];
@@ -37,8 +38,6 @@ backgroundImage.onload = () => {
         angleRatios.push(randomIntFromInterval(20,40));
         drawTree(ctx, treeXPositions[i]+=5, depthRatios[i], angleRatios[i])
     }
-   console.log(boids)
-
     ctx.drawImage(witchTranslated, witchXPosition, backgroundCanvas.height-400, witch.width/1.5, witch.height/1.5);
 }
 
@@ -55,6 +54,7 @@ function checKey(e){
         }
         gameOfLifeCanvas.scrollLeft -= 5;
         wordCanvas.scrollLeft -= 5;
+        orbCanvas.scrollLeft -= 5;
        
         boidsDiv.style.left = `${boidsPos-=10}px`
         ctx.drawImage(witch, witchXPosition-=10, backgroundCanvas.height-400, witch.width/1.5, witch.height/1.5);
@@ -68,6 +68,8 @@ function checKey(e){
         }
         gameOfLifeCanvas.scrollLeft +=5;
         wordCanvas.scrollLeft +=5;
+        orbCanvas.scrollLeft += 5;
+
         boidsDiv.style.left = `${boidsPos+=10}px`
 
         ctx.drawImage(witchTranslated,witchXPosition+=10, backgroundCanvas.height-400, witch.width/1.5, witch.height/1.5);
