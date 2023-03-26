@@ -4,11 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
     <title>Document</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
 </head>
 <body>
+    <div id="menu">
+        <div id="bgMenu">
+            <h1>ARCANUM</h1>
+            <img src="/assets/arrow.png" class="play" id="btnPlay">   
+        </div>
+
+    </div>
     <canvas id="backgroundCanvas" width="1400" height="900"></canvas>
     <div id="gameOfLife">
         <canvas id="canvas2" width="2400" height="400" ></canvas>
@@ -29,6 +39,7 @@
 <script src="./mathFunction.js" type="module"></script>
 <script src="./letter.js" type="module"></script>
 <script src="./orb.js" type="module"></script>
+<script src="./menu.js" type="module"></script>
 
 <script type="module">
     import {xPositon} from "./script.js"
@@ -173,11 +184,15 @@ window.onload = () => {
 </script>
 
 <style>
+    *{
+        font-family: 'Alice';
+    }
     html{
         display: flex;
         justify-content: center;
         align-items: center;
         align-self: center;
+        background-color: black;
     }
     body{
         display: flex;
@@ -227,6 +242,37 @@ window.onload = () => {
         overflow-x: hidden;
         width: 1400px;
     }
+    #menu{
+        position: absolute;
+        top: 0;
+        overflow-x: hidden;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 1400px;
+        height: 910px;
+        border-radius: 20px;
+        background-image: url('./assets/bg-image-blurred.png');
+    }
+    h1{
+        color: #050a24;;
+        font-size: 150px;
+        margin: 0;
+    }
+    #bgMenu{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+       
+
+    }
+    .play{
+        width: 30%;
+    }
+
 
 </style>
 

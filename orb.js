@@ -4,7 +4,7 @@ const orbCanvas = document.getElementById('canvas5');
 const ctx = orbCanvas.getContext('2d');
 const body = document.querySelector("body")
 
-const orbPositionX = 1500
+const orbPositionX = 1400
 let orbPositionY = 550
 let vitesse = 0.5
 const yMax = 565
@@ -18,6 +18,8 @@ console.log('orb', orb)
 // Animation of the orb
 orb.onload = () => {
     ctx.drawImage(orb, orbPositionX, orbPositionY, 150, 150);
+   
+
     setInterval(()=> {
 
         ctx.clearRect(0, 0, orbCanvas.width, orbCanvas.height);
@@ -44,7 +46,7 @@ dialogBox.src="./assets/dialog.png"
 //create text dialog
 let newText = document.createElement("p");
 newText.style.position ="absolute"
-newText.style.fontSize="32px"
+newText.style.fontSize="24px"
 newText.style.top="70px"
 newText.style.left="50px"
 
@@ -59,8 +61,8 @@ newDiv.style.alignSelf= "flex-end";
 //create text name
 let name = document.createElement("p");
 name.style.position ="absolute"
-name.style.fontSize="32px"
-name.style.top="-5px"
+name.style.fontSize="28px"
+name.style.top="0px"
 name.style.left="160px"
 
 newDiv.appendChild(name);
@@ -84,6 +86,7 @@ orbCanvas.addEventListener("click", function(event) {
             const currentDiv = document.getElementById("divbackgroundCanvas");
             document.body.insertBefore(newDiv, currentDiv);  
             let interval = setInterval(()=> ecrireTexte(realText,interval), vitesseEcriture)
+            name.innerHTML="";
             for(let i =0; i<nameText.length;i++){
                 name.innerHTML += nameText.charAt(i);
             }
@@ -116,8 +119,8 @@ newDiv.addEventListener("click", function(event) {
     //dialog text
     const textArray=[
         "ᛁᛠᚲᚣ !!",
-        "*...décode sa langue runique*",
-        "HELP! Au secours! Je suis prisonnier",
+        "*...Décode sa langue runique.*",
+        "HELP! Au secours! Je suis prisonnier.",
         "Mais comment vous retrouver ?",
         "Suivez la route des trois sorcières, mon amie vous aidera...",
         "..."

@@ -28,7 +28,7 @@ witchTranslated.src="./assets/witch_translated.png"
 
 // set background image
 let backgroundImage = new Image();
-backgroundImage.src ="./assets/bg-image.webp"
+backgroundImage.src ="./assets/bg-image.png"
 backgroundImage.onload = () => {
     console.log(backgroundImage.width)
     ctx.drawImage(backgroundImage, xPositon, (-backgroundCanvas.height/3-80), backgroundImage.width*1.25, backgroundImage.height*1.25);
@@ -77,3 +77,10 @@ function checKey(e){
     }
 };
 
+
+const panneau = new Image();
+panneau.src="./assets/panneau2.png"
+console.log(panneau)
+panneau.onload = () => {
+    ctx.drawImage(panneau, 1500, 650, 120, 180)
+  }
